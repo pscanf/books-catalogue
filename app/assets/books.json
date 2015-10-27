@@ -1,0 +1,38 @@
+{
+    "book-1": {
+        "id": "book-1",
+        "title": "The Lord of the Rings",
+        "author": "J. R. R. Tolkien",
+        "publicationYear": "1954 - 1955"
+    },
+    "book-2": {
+        "id": "book-2",
+        "title": "The Hobbit",
+        "author": "J. R. R. Tolkien",
+        "publicationYear": "1937"
+    },
+    "book-3": {
+        "id": "book-3",
+        "title": "A Walk in the Woods",
+        "author": "Bill Bryson",
+        "publicationYear": "1998"
+    },
+    "book-4": {
+        "id": "book-4",
+        "title": "The Catcher in the Rye",
+        "author": "J. D. Salinger",
+        "publicationYear": "1951"
+    },
+    "book-5": {
+        "id": "book-5",
+        "title": "To Kill a Mockingbird",
+        "author": "Harper Lee",
+        "publicationYear": "1960"
+    },
+    "book-6": {
+        "id": "book-6",
+        "title": "Sette Brevi Lezioni di Fisica",
+        "author": "Carlo Rovelli",
+        "publicationYear": "2014"
+    }
+}

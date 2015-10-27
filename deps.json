@@ -1,0 +1,36 @@
+{
+    "css": [
+        "node_modules/bootstrap/dist/css/bootstrap.css",
+        "node_modules/bootstrap-material-design/dist/css/material.css",
+        "node_modules/bootstrap-material-design/dist/css/roboto.css",
+        "node_modules/mdi/css/materialdesignicons.css",
+        "node_modules/react-select/dist/default.css"
+    ],
+    "fonts": [
+        "node_modules/bootstrap-material-design/dist/fonts/*",
+        "node_modules/mdi/fonts/*"
+    ],
+    "js": [
+        "axios",
+        "change-case",
+        "fuse.js",
+        "griddle-react",
+        "halogen",
+        "history/lib/createHashHistory",
+        "node-uuid",
+        "ramda",
+        "react",
+        "react-bootstrap",
+        "react-dom",
+        "react-redux",
+        "react-router",
+        "react-select",
+        "redux",
+        "redux-form",
+        "redux-localstorage",
+        "redux-logger",
+        "redux-router",
+        "redux-thunk",
+        "underscore"
+    ]
+}
