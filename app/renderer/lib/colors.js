@@ -11,9 +11,10 @@ export const lime = "#cddc39";
 export const lightyellow = "#ffeb3b";
 export const orange = "#ff9800";
 export const deeporange = "#ff5722";
-export const grey = "#9e9e9e";
 export const bluegrey = "#607d8b";
 export const brown = "#795548";
+export const grey = "#9e9e9e";
+export const midgrey = "#d2d2d2";
 export const lightgrey = "#ececec";
 export const black = "#333333";
 

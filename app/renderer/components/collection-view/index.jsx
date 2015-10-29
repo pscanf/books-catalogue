@@ -1,15 +1,15 @@
 import {title} from "change-case";
 import {v4} from "node-uuid";
-import {last, partial, path, values} from "ramda";
+import {is, last, partial, path, values} from "ramda";
 import React, {Component, PropTypes} from "react";
 import * as bootstrap from "react-bootstrap";
 
 import EditRemoveCell from "components/edit-remove-cell";
 import FabButton from "components/fab-button";
-import Griddle from "components/griddle";
 import Icon from "components/icon";
 import RemoveModal from "components/remove-modal";
-import SortIcon from "components/sort-icon";
+import Reactabular from "components/reactabular";
+// import SortIcon from "components/sort-icon";
 import Spacer from "components/spacer";
 import Spinner from "components/spinner";
 import UpsertForm from "components/upsert-form";
@@ -21,7 +21,6 @@ export default class CollectionView extends Component {
         UpsertFormComponent: PropTypes.func.isRequired,
         collectionName: PropTypes.string.isRequired,
         collections: PropTypes.object.isRequired,
-        fetch: PropTypes.func.isRequired,
         filter: PropTypes.string,
         goToElementInsert: PropTypes.func.isRequired,
         goToElementRemove: PropTypes.func.isRequired,
@@ -30,17 +29,15 @@ export default class CollectionView extends Component {
         remove: PropTypes.func.isRequired,
         router: PropTypes.object.isRequired,
         setFilter: PropTypes.func.isRequired,
-        tableProperties: PropTypes.arrayOf(PropTypes.string),
+        tableProperties: PropTypes.arrayOf(PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.object
+        ])),
         upsert: PropTypes.func.isRequired
     }
 
     static defaultProps = {
-        collectionName: "books",
         tableProperties: ["_id"]
-    }
-
-    componentDidMount () {
-        this.props.fetch(this.props.collectionName);
     }
 
     getElementId () {
@@ -60,10 +57,6 @@ export default class CollectionView extends Component {
     }
 
     getColumns () {
-        return this.props.tableProperties.concat(["_id"]);
-    }
-
-    getColumnsMetadata () {
         const {
             collectionName,
             goToElementRemove,
@@ -71,19 +64,19 @@ export default class CollectionView extends Component {
             tableProperties
         } = this.props;
         return tableProperties
-            .map(property => ({
-                columnName: property,
-                displayName: title(property)
-            }))
+            .map(property => (is(String, property) ? {
+                property,
+                header: title(property)
+            } : property))
             .concat([{
-                columnName: "_id",
-                customComponent: ({data}) => (
+                property: "_id",
+                cell: _id => (
                     <EditRemoveCell
-                        onEditClick={partial(goToElementUpdate, [collectionName, data])}
-                        onRemoveClick={partial(goToElementRemove, [collectionName, data])}
+                        onEditClick={partial(goToElementUpdate, [collectionName, _id])}
+                        onRemoveClick={partial(goToElementRemove, [collectionName, _id])}
                     />
                 ),
-                displayName: ""
+                header: ""
             }]);
     }
 
@@ -143,28 +136,23 @@ export default class CollectionView extends Component {
 
     renderList () {
         return !this.isFetching() ? (
-            <Griddle
-                columnMetadata={this.getColumnsMetadata()}
+            <Reactabular
+                className="table table-striped table-hover"
                 columns={this.getColumns()}
-                noDataMessage={`Collection ${this.props.collectionName} has no elements`}
-                results={this.getElements()}
-                resultsPerPage={0}
-                showPager={false}
-                sortAscendingComponent={<SortIcon direction="ascending" />}
-                sortDescendingComponent={<SortIcon direction="descending" />}
-                tableClassName="table table-striped table-hover"
-                useGriddleStyles={false}
+                data={this.getElements()}
             />
         ) : <Spinner height="400px" />;
     }
 
     renderUpsertForm () {
-        const {collectionName, goToList, UpsertFormComponent} = this.props;
+        const {collections, collectionName, goToList, UpsertFormComponent} = this.props;
         const elementId = this.getElementId();
         return (
             <UpsertForm
                 Component={UpsertFormComponent}
                 collectionName={collectionName}
+                collections={collections}
+                elementId={elementId}
                 fields={UpsertFormComponent.fields}
                 form={collectionName}
                 formKey={elementId}

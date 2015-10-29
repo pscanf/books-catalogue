@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from "react";
-import {path} from "ramda";
+import {path, prop, values} from "ramda";
 import {connect} from "react-redux";
 import {pushState, replaceState} from "redux-router";
 
@@ -61,6 +61,12 @@ export default class Collection extends Component {
         router: PropTypes.object.isRequired,
         setFilter: PropTypes.func.isRequired,
         upsert: PropTypes.func.isRequired
+    }
+
+    componentWillMount () {
+        values(collectionsConfig)
+            .map(prop("collectionName"))
+            .forEach(this.props.fetch);
     }
 
     getCollection () {

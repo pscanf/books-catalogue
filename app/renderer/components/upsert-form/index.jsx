@@ -15,6 +15,8 @@ class UpsertForm extends Component {
 
     static propTypes = {
         Component: PropTypes.func.isRequired,
+        collections: PropTypes.object.isRequired,
+        elementId: PropTypes.string,
         fields: PropTypes.object.isRequired,
         handleSubmit: PropTypes.func,
         inserting: PropTypes.bool.isRequired,
@@ -24,6 +26,8 @@ class UpsertForm extends Component {
     render () {
         const {
             Component,
+            collections,
+            elementId,
             fields,
             handleSubmit,
             inserting,
@@ -38,7 +42,11 @@ class UpsertForm extends Component {
                 </bootstrap.Modal.Header>
                 <bootstrap.Modal.Body>
                     <Spacer direction="v" size={30} />
-                    <Component fields={fields} />
+                    <Component
+                        collections={collections}
+                        elementId={elementId}
+                        fields={fields}
+                    />
                 </bootstrap.Modal.Body>
                 <bootstrap.Modal.Footer>
                     <bootstrap.Col xs={12}>
@@ -79,7 +87,12 @@ export default class UpsertFormModalWrapper extends Component {
     render () {
         const {onCancel, show} = this.props;
         return (
-            <bootstrap.Modal backdrop="static" onHide={onCancel} show={show}>
+            <bootstrap.Modal
+                backdrop="static"
+                bsSize="large"
+                onHide={onCancel}
+                show={show}
+            >
                 <UpsertForm {...this.props} />
             </bootstrap.Modal>
         );

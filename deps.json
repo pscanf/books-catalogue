@@ -14,7 +14,6 @@
         "axios",
         "change-case",
         "fuse.js",
-        "griddle-react",
         "halogen",
         "history/lib/createHashHistory",
         "node-uuid",
@@ -30,8 +29,7 @@
         "redux-localstorage",
         "redux-logger",
         "redux-router",
-        "redux-thunk",
-        "underscore"
+        "redux-thunk"
     ],
     "webpackExternals": [
         "electron-rpc/client"
