@@ -1,0 +1,24 @@
+export const red = "#f44336";
+export const pink = "#e91e63";
+export const purple = "#9c27b0";
+export const deeppurple = "#673ab7";
+export const indigo = "#3f51b5";
+export const lightblue = "#03a9f4";
+export const cyan = "#00bcd4";
+export const teal = "#009688";
+export const lightgreen = "#8bc34a";
+export const lime = "#cddc39";
+export const lightyellow = "#ffeb3b";
+export const orange = "#ff9800";
+export const deeporange = "#ff5722";
+export const grey = "#9e9e9e";
+export const bluegrey = "#607d8b";
+export const brown = "#795548";
+export const lightgrey = "#ececec";
+export const black = "#333333";
+
+export const primary = "#4285f4";
+export const success = "#0f9d58";
+export const info = "#03a9f4";
+export const warning = "#ff5722";
+export const danger = "#f44336";

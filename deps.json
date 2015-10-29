@@ -32,5 +32,8 @@
         "redux-router",
         "redux-thunk",
         "underscore"
+    ],
+    "webpackExternals": [
+        "electron-rpc/client"
     ]
 }
