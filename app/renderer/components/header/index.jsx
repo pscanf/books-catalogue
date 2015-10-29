@@ -24,7 +24,8 @@ const styles = {
         alignItems: "center"
     },
     logo: {
-        height: "100%"
+        height: "calc(100% - 4px)",
+        margin: "2px"
     }
 };
 
