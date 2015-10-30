@@ -1,4 +1,4 @@
-import {test, path} from "ramda";
+import {is, path, test} from "ramda";
 
 export function getBoxLabelText (book) {
     const {title, author, publicationYear, boxLabelText} = book;
@@ -7,7 +7,7 @@ export function getBoxLabelText (book) {
 
 export function fuzzyFilter (list, term, keys) {
     const match = test(new RegExp(term, "i"));
-    keys = keys.map(key => key.split("."));
+    keys = keys.map(key => (is(String, key) ? key : key.property).split("."));
     return list.filter(element => (
         keys.reduce((matches, key) => (
             matches ? matches : match(path(key, element))

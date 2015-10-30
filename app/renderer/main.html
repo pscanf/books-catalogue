@@ -19,7 +19,9 @@
 
     <body>
         <div id="root"></div>
+        <!-- @if NODE_ENV=='dev' -->
         <script>require("electron-connect").client.create()</script>
+        <!-- @endif -->
         <script src="./_assets/js/vendor.js"></script>
         <script src="./_assets/js/app.js"></script>
     </body>

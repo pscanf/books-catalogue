@@ -1,4 +1,5 @@
-import BPromise from "bluebird";
+import asar from "asar";
+import {promisify} from "bluebird";
 import fs from "fs";
 import {server} from "electron-connect";
 import gulp from "gulp";
@@ -30,6 +31,7 @@ const mainBaseDir = `${baseDir}/main`;
 
 proGulp.task("buildElectronManifest", function () {
     return gulp.src("package.json")
+        .pipe(gp.preprocess({context: {NODE_ENV}}))
         .pipe(gulp.dest(`${baseDir}/`));
 });
 
@@ -86,9 +88,7 @@ proGulp.task("buildAppScripts", (function () {
             )
         ]
     });
-    return function () {
-        return BPromise.promisify(compiler.run, compiler)();
-    };
+    return promisify(compiler.run, compiler);
 })());
 
 proGulp.task("buildAppAssets", function () {
@@ -122,6 +122,20 @@ gulp.task("build", proGulp.task("build"));
 
 
 /*
+*   Linters
+*/
+
+proGulp.task("lint", function () {
+    return gulp.src(["app/**/*.js", "app/**/*.jsx"])
+        .pipe(gp.eslint())
+        .pipe(gp.eslint.format());
+});
+
+gulp.task("lint", proGulp.task("lint"));
+
+
+
+/*
 *   Testers
 */
 
@@ -139,6 +153,8 @@ proGulp.task("runUnitTests", function () {
         });
 });
 
+gulp.task("test", proGulp.task("runUnitTests"));
+
 
 
 /*
@@ -146,6 +162,7 @@ proGulp.task("runUnitTests", function () {
 */
 
 proGulp.task("setupDevServer", function () {
+    process.env.NODE_ENV = NODE_ENV;
     const electron = server.create({
         path: baseDir
     });
@@ -161,7 +178,7 @@ proGulp.task("setupWatchers", function () {
     );
     gulp.watch(
         ["app/renderer/**/*.jsx", "app/renderer/**/*.js"],
-        proGulp.parallel(["buildAppScripts", "runUnitTests"])
+        proGulp.parallel(["buildAppScripts", "lint", "runUnitTests"])
     );
     gulp.watch(
         "app/renderer/assets/**/*",
@@ -190,10 +207,13 @@ gulp.task("dev", proGulp.sequence([
 *   Tasks to deploy
 */
 
-proGulp.task("deploy", proGulp.task("build"), function () {
+proGulp.task("package", proGulp.task("build"), function () {
+    const src = `${baseDir}/`;
+    const dst = `${baseDir}.asar`;
+    return promisify(asar.createPackage, asar)(src, dst);
 });
 
-gulp.task("deploy", proGulp.task("deploy"));
+gulp.task("package", proGulp.task("package"));
 
 
 
@@ -206,10 +226,13 @@ gulp.task("default", function () {
     gp.util.log("Usage: " + gp.util.colors.blue("gulp [TASK]"));
     gp.util.log("");
     gp.util.log("Available tasks:");
-    gp.util.log("  " + gp.util.colors.green("build") + "   build the application (use environment variables to customize the build)");
-    gp.util.log("  " + gp.util.colors.green("dev") + "     set up dev environment with auto-recompiling");
+    gp.util.log("  " + gp.util.colors.green("build") + "     builds the application");
+    gp.util.log("  " + gp.util.colors.green("dev") + "       sets up dev environment with auto-recompiling");
+    gp.util.log("  " + gp.util.colors.green("lint") + "      lints js and jsx files");
+    gp.util.log("  " + gp.util.colors.green("package") + "   packages the application into an asar archive");
+    gp.util.log("  " + gp.util.colors.green("test") + "      runs tests");
     gp.util.log("");
     gp.util.log("Environment variables for configuration:");
-    gp.util.log("  " + gp.util.colors.cyan("NODE_ENV") + "        (defaults to `dev`)");
+    gp.util.log("  " + gp.util.colors.cyan("NODE_ENV") + "  (defaults to `dev`)");
     gp.util.log("");
 });

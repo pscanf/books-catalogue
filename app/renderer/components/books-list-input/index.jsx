@@ -60,7 +60,13 @@ export default class BooksListInput extends Component {
                     className="pull-right"
                     icon="content-clear"
                     onClick={this.handleRemove.bind(this, book._id)}
-                    style={{color: colors.red}}
+                    style={{
+                        color: colors.red,
+                        height: "20px",
+                        width: "20px",
+                        fontSize: "10px",
+                        padding: "0px"
+                    }}
                 />
             </bootstrap.Panel>
         ));

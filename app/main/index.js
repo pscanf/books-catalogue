@@ -14,15 +14,14 @@ app.on("window-all-closed", function () {
 });
 
 app.on("ready", function () {
-    mainWindow = new BrowserWindow({
-        width: 1400,
-        height: 850
-    });
+    mainWindow = new BrowserWindow({});
     mainWindow.loadUrl(`file://${__dirname}/../renderer/index.html`);
     mainWindow.on("closed", function () {
         mainWindow = null;
     });
-    mainWindow.openDevTools();
+    if (process.env.NODE_ENV === "dev") {
+        mainWindow.openDevTools();
+    }
     const server = new Server(mainWindow.webContents);
     registerMethods(server, getCollectionMethods("books"));
     registerMethods(server, getCollectionMethods("boxes"));
