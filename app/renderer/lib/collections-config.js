@@ -12,7 +12,7 @@ export const boxes = {
     collectionName: "boxes",
     tableProperties: ["name", {
         property: "books",
-        cell: books => books.length,
+        cell: books => books && books.length,
         header: "Books"
     }]
 };

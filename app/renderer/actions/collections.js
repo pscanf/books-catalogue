@@ -20,7 +20,8 @@ export function fetch (collection) {
                 type: COLLECTION_FETCH_ERROR,
                 collection,
                 error
-            }));
+            }))
+            .catch(error => console.error(error));
     };
 }
 
@@ -49,7 +50,8 @@ export function upsert (collection, _id, element) {
                 _id,
                 element,
                 error
-            }));
+            }))
+            .catch(error => console.error(error));
     };
 }
 
@@ -75,6 +77,7 @@ export function remove (collection, _id) {
                 collection,
                 _id,
                 error
-            }));
+            }))
+            .catch(error => console.error(error));
     };
 }
