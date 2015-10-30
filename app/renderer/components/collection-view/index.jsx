@@ -113,7 +113,7 @@ export default class CollectionView extends Component {
                 icon="content-add"
                 onClick={partial(goToElementInsert, [collectionName])}
                 style={{
-                    position: "absolute",
+                    position: "fixed",
                     bottom: "15px",
                     right: "15px"
                 }}
@@ -188,7 +188,7 @@ export default class CollectionView extends Component {
                     alignItems: "center",
                     justifyContent: "center",
                     width: "100%",
-                    height: "100%",
+                    height: "200px",
                     fontSize: "20px"
                 }}
             >
@@ -213,13 +213,14 @@ export default class CollectionView extends Component {
     render () {
         const elements = this.getElements();
         return (
-            <bootstrap.Grid fluid style={{height: "100%"}}>
+            <bootstrap.Grid fluid>
                 <Spacer direction="v" size={30} />
                 {
                     isEmpty(elements) ?
                     this.renderNoDataMessage() :
                     this.renderData(elements)
                 }
+                <Spacer direction="v" size={50} />
                 {this.renderRemoveModal()}
                 {this.renderUpsertForm()}
                 {this.renderAddButton()}

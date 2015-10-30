@@ -1,5 +1,5 @@
 {
-  "name": "catalogo-libri",
+  "name": "books-catalogue",
   "version": "1.0.0",
   "description": "Catalogo libri",
   "main": "main/index.js",
