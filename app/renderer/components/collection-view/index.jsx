@@ -1,6 +1,6 @@
 import {title} from "change-case";
 import {v4} from "node-uuid";
-import {is, last, partial, path, values} from "ramda";
+import {is, isEmpty, last, partial, path, values} from "ramda";
 import React, {Component, PropTypes} from "react";
 import * as bootstrap from "react-bootstrap";
 
@@ -134,12 +134,13 @@ export default class CollectionView extends Component {
         );
     }
 
-    renderList () {
+    renderList (elements) {
         return !this.isFetching() ? (
             <Reactabular
                 className="table table-striped table-hover"
+                collectionName={this.props.collectionName}
                 columns={this.getColumns()}
-                data={this.getElements()}
+                data={elements}
             />
         ) : <Spinner height="400px" />;
     }
@@ -179,18 +180,46 @@ export default class CollectionView extends Component {
         );
     }
 
-    render () {
+    renderNoDataMessage () {
         return (
-            <bootstrap.Grid fluid>
+            <div
+                style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: "100%",
+                    height: "100%",
+                    fontSize: "20px"
+                }}
+            >
+                {`There are no ${this.props.collectionName} to show`}
+            </div>
+        );
+    }
+
+    renderData (elements) {
+        return (
+            <bootstrap.Row>
+                <bootstrap.Col xs={6} xsOffset={6}>
+                    {this.renderSearchInput()}
+                </bootstrap.Col>
+                <bootstrap.Col xs={12}>
+                    {this.renderList(elements)}
+                </bootstrap.Col>
+            </bootstrap.Row>
+        );
+    }
+
+    render () {
+        const elements = this.getElements();
+        return (
+            <bootstrap.Grid fluid style={{height: "100%"}}>
                 <Spacer direction="v" size={30} />
-                <bootstrap.Row>
-                    <bootstrap.Col xs={6} xsOffset={6}>
-                        {this.renderSearchInput()}
-                    </bootstrap.Col>
-                    <bootstrap.Col xs={12}>
-                        {this.renderList()}
-                    </bootstrap.Col>
-                </bootstrap.Row>
+                {
+                    isEmpty(elements) ?
+                    this.renderNoDataMessage() :
+                    this.renderData(elements)
+                }
                 {this.renderRemoveModal()}
                 {this.renderUpsertForm()}
                 {this.renderAddButton()}
