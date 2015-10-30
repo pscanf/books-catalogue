@@ -1,4 +1,4 @@
-import Fuse from "fuse.js";
+import {test, path} from "ramda";
 
 export function getBoxLabelText (book) {
     const {title, author, publicationYear, boxLabelText} = book;
@@ -6,8 +6,13 @@ export function getBoxLabelText (book) {
 }
 
 export function fuzzyFilter (list, term, keys) {
-    const f = new Fuse(list, {keys});
-    return term ? f.search(term) : list;
+    const match = test(new RegExp(term, "i"));
+    keys = keys.map(key => key.split("."));
+    return list.filter(element => (
+        keys.reduce((matches, key) => (
+            matches ? matches : match(path(key, element))
+        ), false)
+    ));
 }
 
 export function getRandomClassName () {

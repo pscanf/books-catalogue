@@ -67,7 +67,6 @@
     "change-case": "^2.3.0",
     "electron-rpc": "^1.0.3",
     "font-awesome": "^4.4.0",
-    "fuse.js": "^1.2.2",
     "halogen": "^0.1.10",
     "history": "^1.13.0",
     "lodash": "^3.10.1",

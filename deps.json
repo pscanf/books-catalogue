@@ -13,9 +13,9 @@
     "js": [
         "axios",
         "change-case",
-        "fuse.js",
         "halogen",
         "history/lib/createHashHistory",
+        "lodash",
         "node-uuid",
         "ramda",
         "react",
@@ -24,6 +24,7 @@
         "react-redux",
         "react-router",
         "react-select",
+        "reactabular",
         "redux",
         "redux-form",
         "redux-localstorage",
